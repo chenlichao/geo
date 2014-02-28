@@ -59,6 +59,16 @@ int main(int argc, char** argv)
 		fconf.close();
 	}
 
+
+	if (vm.count("threshold1")) {
+		cout << "threshold1 = "<<thre1<< "\n";
+	} 
+	if (vm.count("threshold2")) {
+		cout << "threshold2 = "<<thre2<< "\n";
+	} 
+	if (vm.count("threshold3")) {
+		cout << "threshold3 = "<<thre3<< "\n";
+	} 
 	auto tabmx = map<int,float>();
 	auto tabmy = map<int,float>();
 	auto tabmr = map<int,float>();
@@ -121,8 +131,11 @@ int main(int argc, char** argv)
 						for(auto itk=temp.begin();itk!=temp.end();itk++){
 							auto e1 = it->second.edges[*itk];
 							auto e2 = it2->second.edges[*itk];
-							if(abs((e1.mx-e2.mx)/min(e1.mr,e2.mr))<thre1&&
-									abs((e1.my-e2.my)/min(e1.mr,e2.mr))<thre2&&
+
+							auto delta_x = -e1.mx/e1.mr +e2.mx/e2.mr+0.5/e1.mr-0.5/e2.mr;
+							auto delta_y = -e1.my/e1.mr +e2.my/e2.mr+0.5/e1.mr-0.5/e2.mr;
+							if(abs(delta_x)<thre1&&
+									abs(delta_y)<thre2&&
 									abs(e1.mr-e2.mr)<thre3){
 								i++;
 								if(!displayed)
