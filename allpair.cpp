@@ -119,6 +119,7 @@ int main(int argc, char** argv)
 
 	i=0;
 	if (nettype=="alt"){
+		cout<<"createing alternative parts network"<<endl;
 		for (auto it=g.nodes.begin();it!=g.nodes.end();++it)
 			for (auto it2=next(it);it2!=g.nodes.end();++it2)
 			{
@@ -154,6 +155,7 @@ int main(int argc, char** argv)
 		cout << "there are "<<g.nodes.size()<<" node."<<endl;
 		cout << "there are "<<i<<" pairs."<<endl;
 	} else if (nettype=="dup"){
+		cout<<"createing duplicate parts network"<<endl;
 		for (auto it=g.nodes.begin();it!=g.nodes.end();++it)
 			for (auto it2=next(it);it2!=g.nodes.end();++it2)
 			{

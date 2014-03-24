@@ -27,6 +27,7 @@ class edge {
 		float vx,vy,vr;
 		bool isDerived;
 };
+
 class node {
 	public:
 		node()=default;
