@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
-project( allpair )
-set (ALLPAIR_VERSION_MAJOR 0)
-set (ALLPAIR_VERSION_MINOR 3)
+project( GEO )
+set (GEO_VERSION_MAJOR 0)
+set (GEO_VERSION_MINOR 3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake")
 
@@ -29,18 +29,20 @@ FIND_PACKAGE( Boost COMPONENTS program_options system REQUIRED)
 
 add_executable(allpair "allpair.cpp" )
 add_executable(nbyn "nbyn.cpp" )
+add_executable(contour "contour.cpp" )
 
-include_directories(${allpair_SOURCE_DIR}/include)
+include_directories(${GEO_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 target_link_libraries( allpair  ${Boost_LIBRARIES})
 target_link_libraries( nbyn ${Boost_LIBRARIES})
+target_link_libraries( contour ${Boost_LIBRARIES})
 
-#get_cmake_property(_variableNames VARIABLES)
+get_cmake_property(_variableNames VARIABLES)
 
 
-#foreach (_variableName ${_variableNames})
-#	message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach()
+foreach (_variableName ${_variableNames})
+	message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 

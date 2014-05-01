@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 class edge {
 	public:
 		edge()=default;
@@ -46,10 +45,26 @@ class node {
 					inserter(res,res.end()));
 			return res;
 		}
-
+		void calculateScale(map<int,node>& nodes){
+			vector<int> assigned;
+			copy_if(neighbors.begin(),neighbors.end(),
+					back_inserter(assigned),[&nodes](const int& i){
+					return nodes[i].scale!=0;
+					});
+			float s=0;
+			for(auto it=assigned.begin();it!=assigned.end();it++){
+				s+=nodes[*it].edges[id].mr * nodes[*it].scale;
+			}
+			s/=assigned.size();
+			scale = s;
+#ifdef _DEBUG
+			cout<<"nodes "<<id<<" scale assigned: "<<s<<endl;
+#endif
+		}
 	public:
 		map<int, edge> edges;
 		set<int> neighbors;
+		float scale;
 		int id;
 };
 
