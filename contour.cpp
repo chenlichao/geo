@@ -34,6 +34,9 @@ int main(int argc, char** argv)
 	string oyfname;
 	string onfname;
 	string config;
+	float thresx=0;
+	float thresy=0;
+	float thress=0;
 
 	po::options_description desc("General Options");
 	desc.add_options()
@@ -44,7 +47,10 @@ int main(int argc, char** argv)
 		("output,O",po::value<string>(&ofname),"output file")
 		("xoutput,X",po::value<string>(&oxfname),"x output file")
 		("youtput,Y",po::value<string>(&oyfname),"y output file")
-		("noutput,N",po::value<string>(&onfname),"isnoisy output file");
+		("noutput,N",po::value<string>(&onfname),"isnoisy output file")
+		("thresx",po::value<float>(&thresx),"threshold x")
+		("thresy",po::value<float>(&thresy),"threshold y")
+		("thress",po::value<float>(&thress),"threshold s");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -98,8 +104,8 @@ int main(int argc, char** argv)
 	//Load graph
 	auto g = graph();
 	while (fscanf(fin, "%d\t%d", &from,&to)!=EOF) {
-		g.addNode(from);
-		g.addNode(to);
+		g.addNode(from,thresx,thresy,thress);
+		g.addNode(to,thresx,thresy,thress);
 		fromto = from*10000+to;
 		edge aedge(from, to, tabmx[fromto],tabmy[fromto],tabmr[fromto],
 				tabvx[fromto],tabvy[fromto],tabvr[fromto],false);

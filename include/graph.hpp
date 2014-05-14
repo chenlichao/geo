@@ -2,9 +2,13 @@
 #include<limits>
 #include<map>
 #include<algorithm>
+#include<boost/accumulators/accumulators.hpp>
+#include<boost/accumulators/statistics.hpp>
 
 
 using namespace std;
+using namespace boost::accumulators;
+
 
 class edge {
 	public:
@@ -40,6 +44,19 @@ class node {
 			edges[bid]=aedge;
 			neighbors.insert(bid);
 		}
+		void setThreshold(float tx,float ty, float ts){
+			thX = tx;
+			thY = ty;
+			thS = ts;
+		}
+		bool isNoise(float vx,float vy, float vs){
+			if((thX==0||vx<thX)&&(thY==0||vy<thY)&&(thS==0||vs<thS)){
+				return false;
+			}else {
+				return true;
+			}
+		}
+			
 		set<int> inter(const node& b){
 			set<int> res;
 			set_intersection(neighbors.begin(), neighbors.end(),
@@ -56,22 +73,23 @@ class node {
 			float s=0;
 			float x=0;
 			float y=0;
-			float maxs=numeric_limits<float>::min();//or lowest() in c++11?
-			float mins=numeric_limits<float>::max();
+
+			accumulator_set<float,features<tag::variance>> accx;
+			accumulator_set<float,features<tag::variance>> accy;
+			accumulator_set<float,features<tag::variance>> accs;
 
 			for(auto it=assigned.begin();it!=assigned.end();it++){
 				float ts =nodes[*it].edges[id].mr * nodes[*it].scale; 
 				s+=ts;
-				x+=nodes[*it].edges[id].mx * nodes[*it].scale + nodes[*it].absx;
-				y+=nodes[*it].edges[id].my * nodes[*it].scale + nodes[*it].absy;
-				if (ts>maxs)
-				{
-					maxs=ts;
-				}
-				if (ts<mins)
-				{
-					mins =ts;
-				}		
+				float tx=nodes[*it].edges[id].mx * nodes[*it].scale + nodes[*it].absx;
+				x+=tx;
+				float ty=nodes[*it].edges[id].my * nodes[*it].scale + nodes[*it].absy;
+				y+=ty;
+
+
+				accx(tx);
+				accy(ty);
+				accs(ts);
 			}
 			s/=assigned.size();
 			x/=assigned.size();
@@ -79,11 +97,7 @@ class node {
 			scale = s;
 			absx = x;
 			absy = y;
-			if (maxs-mins>0.1){
-				noise = true;
-			}else{
-				noise = false;
-			}
+			noise = isNoise(variance(accx),variance(accy),variance(accs));
 #ifdef _DEBUG
 			cout<<"nodes "<<id<<" scale assigned: "<<s<<endl;
 #endif
@@ -96,6 +110,9 @@ class node {
 		float absy=0;
 		bool noise=true;
 		int id;
+		float thX = 0;
+		float thY = 0;
+		float thS = 0;
 };
 
 class graph{
@@ -106,6 +123,13 @@ class graph{
 		void addNode(int aid){
 			if (nodes.count(aid)==0)
 				nodes[aid]=node(aid);
+		}
+
+		void addNode(int aid,float fx, float fy, float fs){
+			if (nodes.count(aid)==0){
+				nodes[aid]=node(aid);
+				nodes[aid].setThreshold(fx,fy,fs);
+			}
 		}
 
 	public:
