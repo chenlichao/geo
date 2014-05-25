@@ -49,6 +49,9 @@ class node {
 			thY = ty;
 			thS = ts;
 		}
+		bool isNoise(){
+			return isNoise(varX, varY, varS);
+		}
 		bool isNoise(float vx,float vy, float vs){
 			if((thX==0||vx<thX)&&(thY==0||vy<thY)&&(thS==0||vs<thS)){
 				return false;
@@ -97,7 +100,10 @@ class node {
 			scale = s;
 			absx = x;
 			absy = y;
-			noise = isNoise(variance(accx),variance(accy),variance(accs));
+			varX = variance(accx);
+			varY = variance(accy);
+			varS = variance(accs);
+			noise = isNoise();
 #ifdef _DEBUG
 			cout<<"nodes "<<id<<" scale assigned: "<<s<<endl;
 #endif
@@ -110,6 +116,9 @@ class node {
 		float absy=0;
 		bool noise=true;
 		int id;
+		float varX = 0;
+		float varY = 0;
+		float varS = 0;
 		float thX = 0;
 		float thY = 0;
 		float thS = 0;
