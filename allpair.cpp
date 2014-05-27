@@ -26,6 +26,7 @@ int main(int argc, char** argv)
 	string ifname;
 	string tfname;
 	string ofname;
+	string efname;
 	string nettype;
 	string config;//configuration file
 	float thre1;
@@ -42,7 +43,8 @@ int main(int argc, char** argv)
 		("threshold1",po::value<float>(&thre1),"Threshold 1")
 		("threshold2",po::value<float>(&thre2),"Threshold 2")
 		("threshold3",po::value<float>(&thre3),"Threshold 3")
-		("output,O",po::value<string>(&ofname),"output file");
+		("output,O",po::value<string>(&ofname),"output file")
+		("eloutput,E",po::value<string>(&efname),"edge list output file");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -83,6 +85,7 @@ int main(int argc, char** argv)
 	FILE *fin = fopen(ifname.c_str(),"r");
 	FILE *ftable = fopen(tfname.c_str(),"r");
 	FILE *fout=fopen(ofname.c_str(),"w");
+	FILE *fel=fopen(efname.c_str(),"w");
 	int i = 1;
 	int ct;
 	//read edge arguments table
@@ -123,9 +126,9 @@ int main(int argc, char** argv)
 		for (auto it=g.nodes.begin();it!=g.nodes.end();++it)
 			for (auto it2=next(it);it2!=g.nodes.end();++it2)
 			{
-				if (it->second.neighbors.count(it2->second.id)>0)
-					continue;
-				else{
+				//if (it->second.neighbors.count(it2->second.id)>0)
+				//	continue;
+				//else{
 					auto temp = it->second.inter(it2->second);
 					if (temp.size()>0){
 						int displayed = 0;
@@ -135,21 +138,31 @@ int main(int argc, char** argv)
 
 							auto delta_x = -e1.mx/e1.mr +e2.mx/e2.mr+0.5/e1.mr-0.5/e2.mr;
 							auto delta_y = -e1.my/e1.mr +e2.my/e2.mr+0.5/e1.mr-0.5/e2.mr;
-							if(abs(delta_x)<thre1&&
-									abs(delta_y)<thre2&&
+
+
+							//auto delta_x = -e1.mx/e1.mr +e2.mx/e2.mr;
+							//auto delta_y = -e1.my/e1.mr +e2.my/e2.mr;
+
+							auto l1 = std::max(abs(delta_x),abs(delta_x*e1.mr))+
+								std::max(abs(delta_y),abs(delta_y*e1.mr));
+
+
+							//if(it->first==709||it2->first==709||(l1<thre1&&
+							if(l1<thre1&&
 									abs(e1.mr-e2.mr)<thre3){
 								i++;
 								if(!displayed)
 								{
 									displayed=1;
 									fprintf(fout,"%d<->%d:\n",it->first, it2->first);
+									fprintf(fel,"%d\t%d\n",it->first, it2->first);
 								}
 								fprintf(fout,"%d:\t%f,%f\t%f,%f\t%f,%f\n",
 										*itk,e1.mx,e2.mx,e1.my,e2.my,e1.mr,e2.mr);
 							}
 						}
 					}
-				}
+				//}
 			}
 
 		cout << "there are "<<g.nodes.size()<<" node."<<endl;
@@ -170,6 +183,7 @@ int main(int argc, char** argv)
 						i++;
 						fprintf(fout,"%d<->%d:\t%lu\t%lu\t%lu\n",it->first, it2->first,
 								intersize,size1,size2);
+						fprintf(fel,"%d\t%d\n",it->first, it2->first);
 					}
 				}
 			}
@@ -182,5 +196,6 @@ int main(int argc, char** argv)
 
 	fclose(fin);
 	fclose(fout);
+	fclose(fel);
 	cout << "done." << endl;
 }

@@ -170,12 +170,14 @@ int main(int argc, char** argv)
 		for(auto it=nids.begin();it!=nids.end();it++){
 			if(g.nodes[*it].scale!=0){
 				g.nodes[*it].calculateScale(g.nodes);
+				/*
 				if (*it==124){
 					cout<<"Node 124 Variance:\tx: "<<g.nodes[*it].varX
 						<<"\ty: "<<g.nodes[*it].varY<<"\t s: "
 						<<g.nodes[*it].varS<<endl;
 
 				}
+				*/
 			}
 		}
 		for(auto it=g.nodes.begin();it!=g.nodes.end();it++){
