@@ -132,6 +132,8 @@ int main(int argc, char** argv)
 					auto temp = it->second.inter(it2->second);
 					if (temp.size()>0){
 						int displayed = 0;
+						int eldisplayed = 0;
+						int tc =0;
 						for(auto itk=temp.begin();itk!=temp.end();itk++){
 							auto e1 = it->second.edges[*itk];
 							auto e2 = it2->second.edges[*itk];
@@ -150,11 +152,15 @@ int main(int argc, char** argv)
 							//if(it->first==709||it2->first==709||(l1<thre1&&
 							if(l1<thre1&&
 									abs(e1.mr-e2.mr)<thre3){
-								i++;
+								tc++;
 								if(!displayed)
 								{
 									displayed=1;
 									fprintf(fout,"%d<->%d:\n",it->first, it2->first);
+								}
+								if(tc>1&&!eldisplayed){
+									i++;
+									eldisplayed=1;
 									fprintf(fel,"%d\t%d\n",it->first, it2->first);
 								}
 								fprintf(fout,"%d:\t%f,%f\t%f,%f\t%f,%f\n",
