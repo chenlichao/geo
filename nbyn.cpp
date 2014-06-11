@@ -24,8 +24,8 @@ int main(int argc, char** argv)
 	po::options_description desc("General Options");
 	desc.add_options()
 		("help", "produce help message")
-		("Input,i",po::value<string>(&ifname),"input file")
-		("Output,o",po::value<string>(&ofname),"output file");
+		("input,i",po::value<string>(&ifname),"input file")
+		("output,o",po::value<string>(&ofname),"output file");
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
 	po::notify(vm);
