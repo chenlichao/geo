@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 	FILE *ftable = fopen(tfname.c_str(),"r");
 	FILE *fout=fopen(ofname.c_str(),"w");
 	FILE *fel=fopen(efname.c_str(),"w");
-	int i = 1;
+	int i = 0;
 	int ct;
 	//read edge arguments table
 	while (fscanf(ftable, "%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f", &fromto, &ct,&vx, &vy, &vr,
