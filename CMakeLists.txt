@@ -19,7 +19,7 @@ endif(APPLE)
 
 
 
-#SET(Boost_NO_BOOST_CMAKE ON)
+SET(Boost_NO_BOOST_CMAKE ON)
 
 FIND_PACKAGE( Boost COMPONENTS program_options system REQUIRED)
 
