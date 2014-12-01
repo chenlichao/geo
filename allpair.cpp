@@ -23,6 +23,7 @@ namespace po = boost::program_options;
 
 int main(int argc, char** argv)
 {
+	cout<<"log(10)"<<log(10)<<endl;
 	string ifname;
 	string tfname;
 	string ofname;
@@ -151,7 +152,7 @@ int main(int argc, char** argv)
 
 							//if(it->first==709||it2->first==709||(l1<thre1&&
 							if(l1<thre1&&
-									abs(e1.mr-e2.mr)<thre3){
+									abs(log(e1.mr)-log(e2.mr))<thre3){
 								tc++;
 								if(!displayed)
 								{
