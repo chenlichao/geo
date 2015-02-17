@@ -23,7 +23,6 @@ namespace po = boost::program_options;
 
 int main(int argc, char** argv)
 {
-	cout<<"log(10)"<<log(10)<<endl;
 	string ifname;
 	string tfname;
 	string ofname;
