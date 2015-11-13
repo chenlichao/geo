@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 	{
 		dicx[from * 10000 + to](x);
 		dicy[from * 10000 + to](y);
-		dicr[from * 10000 + to](r);
+		dicr[from * 10000 + to](log(r));
 		i++;
 	}
 	fclose(fin);
