@@ -1,21 +1,21 @@
-// Check all pair of OCS node to see if they are pairs of alternatives
-// according to some other nodes.
-//
+/*
+ * Global Position Estimation
+ */
 
 #define _DEBUG
-#include <map>
-#include <iostream>
-#include <fstream>
-#include <algorithm>
-#include <graph.hpp>
 #include "boost/accumulators/accumulators.hpp"
-#include "boost/accumulators/statistics/stats.hpp"
+#include "boost/accumulators/statistics/count.hpp"
 #include "boost/accumulators/statistics/mean.hpp"
 #include "boost/accumulators/statistics/moment.hpp"
+#include "boost/accumulators/statistics/stats.hpp"
 #include "boost/accumulators/statistics/variance.hpp"
-#include "boost/accumulators/statistics/count.hpp"
 #include "boost/program_options.hpp"
 #include "boost/program_options.hpp"
+#include <algorithm>
+#include <fstream>
+#include <graph.hpp>
+#include <iostream>
+#include <map>
 
 using namespace std;
 using namespace boost::accumulators;
