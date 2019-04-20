@@ -1,12 +1,12 @@
-#include <map>
-#include <iostream>
 #include "boost/accumulators/accumulators.hpp"
-#include "boost/accumulators/statistics/stats.hpp"
+#include "boost/accumulators/statistics/count.hpp"
 #include "boost/accumulators/statistics/mean.hpp"
 #include "boost/accumulators/statistics/moment.hpp"
+#include "boost/accumulators/statistics/stats.hpp"
 #include "boost/accumulators/statistics/variance.hpp"
-#include "boost/accumulators/statistics/count.hpp"
 #include "boost/program_options.hpp"
+#include <iostream>
+#include <map>
 
 using namespace std;
 using namespace boost::accumulators;
@@ -18,10 +18,12 @@ int main(int argc, char **argv) {
   string ofname;
 
   po::options_description desc("General Options");
+  // clang-format off
   desc.add_options()
-		("help", "produce help message")
-		("input,i", po::value<string>(&ifname), "input file")
-		("output,o", po::value<string>(&ofname), "output file");
+	  ("help", "produce help message")
+	  ("input,i", po::value<string>(&ifname), "input file")
+	  ("output,o", po::value<string>(&ofname), "output file");
+  // clang-format on
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
   po::notify(vm);

@@ -29,18 +29,21 @@ int main(int argc, char **argv) {
   float thre2;
   float thre3;
 
+  // clang-format off
+
   po::options_description desc("General Options");
   desc.add_options()
-		("help", "produce help message")
-		("input,I", po::value<string>(&ifname), "input file")
-		("table,T", po::value<string>(&tfname), "lookup table file")
-		("network,N", po::value<string>(&nettype), "network type:dup or alt")
-		("config,C", po::value<string>(&config), "configuration file")
-		( "threshold1", po::value<float>(&thre1), "Threshold 1")
-		("threshold2", po::value<float>(&thre2), "Threshold 2")
-		("threshold3", po::value<float>(&thre3), "Threshold 3")
-		("output,O", po::value<string>(&ofname), "output file")
-		("eloutput,E", po::value<string>(&efname), "edge list output file");
+	  ("help", "produce help message")
+	  ( "input,I", po::value<string>(&ifname), "input file")
+	  ("table,T", po::value<string>(&tfname), "lookup table file")
+	  ("network,N", po::value<string>(&nettype), "network type:dup or alt")
+	  ( "config,C", po::value<string>(&config), "configuration file")
+	  ( "threshold1", po::value<float>(&thre1), "Threshold 1")
+	  ("threshold2", po::value<float>(&thre2), "Threshold 2")
+	  ( "threshold3", po::value<float>(&thre3), "Threshold 3")
+	  ("output,O", po::value<string>(&ofname), "output file")
+	  ( "eloutput,E", po::value<string>(&efname), "edge list output file");
+  // clang-format on
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
